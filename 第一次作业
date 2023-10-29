@@ -1,0 +1,50 @@
+package main //lvx 二分法寻找随机数
+
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
+
+func a() int {
+	rand.Seed(time.Now().UnixNano())
+	return rand.Intn(100) + 1 //rand.Intn(n)为获取0~99的随机一个数
+} //随机数包，获得一个随机数
+
+func erfenfa(num1 int, num2 int, answer int) int {
+	var result int
+	for {
+		if num2 == answer {
+			result = num2
+			break
+		} else if answer-num1 > num2-answer {
+			num1 = (num1 + num2) / 2
+			if num2-num1 <= 1 {
+				result = num1
+				break
+			} else {
+				continue
+			}
+		} else if answer-num1 < num2-answer {
+			num2 = (num1 + num2) / 2
+			if num2-num1 <= 1 {
+				result = num2
+				break
+			} else {
+				continue
+			}
+		} else {
+			result = (num1 + num2) / 2
+			break
+		}
+	}
+	return result
+} //二分法寻找这个随机数
+
+func main() {
+	answer := a()
+	a := erfenfa(0, 100, answer)
+	if a == answer { //检查一遍
+		fmt.Println("这个数是", a)
+	}
+}
