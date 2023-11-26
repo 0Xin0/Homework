@@ -1,0 +1,51 @@
+package main
+
+import "fmt"
+
+var flag [4]int //旗子  flag=1为举起旗子 flag=0为放下旗子
+var turn int    //标签 turn=0为轮到A turn=1为轮到B turn=2为轮到C
+
+func A() {
+	flag[0] = 1
+	turn = 1
+	for flag[1] == 1 && turn == 1 {
+	}
+	fmt.Printf("A在上厕所 ")
+	flag[0] = 0
+}
+func B() {
+	flag[1] = 1
+	turn = 2
+	for flag[2] == 1 && turn == 2 {
+	}
+	fmt.Printf("B在上厕所 ")
+	flag[1] = 0
+}
+func C() {
+	flag[2] = 1
+	turn = 3
+	for flag[3] == 1 && turn == 3 {
+	}
+	fmt.Printf("C在上厕所 ")
+	flag[2] = 0
+}
+func D() {
+	flag[3] = 1
+	turn = 0
+	for flag[0] == 1 && turn == 0 {
+	}
+	fmt.Printf("D在上厕所 ")
+	flag[3] = 0
+}
+func Concurrent() {
+	for i := 0; i < 100; i++ {
+		go A()
+		go B()
+		go C()
+		go D()
+	}
+	select {}
+}
+func main() {
+	Concurrent()
+}
