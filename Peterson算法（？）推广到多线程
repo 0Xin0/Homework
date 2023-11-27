@@ -1,0 +1,39 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+var a = 0
+var f = 1   //总线程顺序
+var t = 0   //具体线程顺序
+
+func Add() {
+	t++
+	n := t  //给线程标号
+	for n != f {    //只允许顺序到的标号线程执行
+	}
+	for i := 0; i < 100000; i++ {
+		a++
+	}
+	f++
+}
+
+func ConcurrentAdd() {
+	go Add()
+	go Add()
+	go Add()
+	go Add()
+	go Add()
+}
+
+func TestConcurrentAdd() {
+	ConcurrentAdd()
+	time.Sleep(time.Second)
+	fmt.Println(a)
+}
+
+func main() {
+	TestConcurrentAdd()
+}
