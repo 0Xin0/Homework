@@ -1,0 +1,54 @@
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+var n = 1
+var turn = 1
+
+var m sync.Mutex
+
+func evennumber() {
+	for {
+		m.Lock()
+		if turn == 1 && n < 100 {
+			m.Unlock()
+			continue
+		} else if n > 100 {
+			m.Unlock()
+			break
+		}
+		fmt.Printf("%v 偶数\n", n)
+		n++
+		turn = 1
+		m.Unlock()
+	}
+
+}
+func oddnumber() {
+	for {
+		m.Lock()
+		if turn == 2 && n < 100 {
+			m.Unlock()
+			continue
+		} else if n > 100 {
+			m.Unlock()
+			break
+		}
+		fmt.Printf("%v 奇数\n", n)
+		n++
+		turn = 2
+		m.Unlock()
+	}
+}
+func Concurrent() {
+	go evennumber()
+	go oddnumber()
+	select {}
+}
+
+func main() {
+	Concurrent()
+}
