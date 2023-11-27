@@ -1,6 +1,7 @@
-package main
-
-import "fmt"
+package main                  //Peterson算法推广到多线程
+                              //思路：对每个线程发一面旗，当要进入临界区时举旗，贴上另一个线程的标签（标签是按顺序只贴下一位的），然后每个线程只判断按顺序的下一位是否举旗和标签是否是下一位的。
+                              //问题：1.程序能跑（但只会跑for循环中所规定的次数），不能像吃面包那样一直跑，且最后程序会死锁。
+import "fmt"                  //     2.感觉这个方法如果线程再多很多个会很麻烦(@~@)
 
 var flag [4]int //旗子  flag=1为举起旗子 flag=0为放下旗子
 var turn int    //标签 turn=0为轮到A turn=1为轮到B turn=2为轮到C
@@ -38,7 +39,7 @@ func D() {
 	flag[3] = 0
 }
 func Concurrent() {
-	for i := 0; i < 100; i++ {
+	for i := 0; i < 10; i++ {
 		go A()
 		go B()
 		go C()
