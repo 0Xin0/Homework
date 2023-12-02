@@ -1,11 +1,11 @@
-package main       //只是把print改成了ch <- n,最后在遍历channl
+package main
 
 import (
 	"fmt"
 	"sync"
 )
 
-var ch = make(chan int, 100)
+var ch = make(chan int, 1)
 
 var n = 1
 var turn = 1
@@ -14,35 +14,27 @@ var m sync.Mutex
 
 func evennumber() {
 	for {
-		m.Lock()
-		if turn == 1 && n < 100 {
-			m.Unlock()
+		if turn == 1 && n < 99 {
 			continue
-		} else if n > 100 {
-			m.Unlock()
+		} else if n > 99 {
 			break
 		}
 		ch <- n
 		n++
 		turn = 1
-		m.Unlock()
 	}
 
 }
 func oddnumber() {
 	for {
-		m.Lock()
-		if turn == 2 && n < 100 {
-			m.Unlock()
+		if turn == 2 && n < 99 {
 			continue
-		} else if n > 100 {
-			m.Unlock()
+		} else if n > 99 {
 			break
 		}
 		ch <- n
 		n++
 		turn = 2
-		m.Unlock()
 	}
 }
 
